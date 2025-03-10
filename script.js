@@ -1,11 +1,11 @@
-let numberButtons = document.querySelectorAll(".number")
-let operatorButtons = document.querySelectorAll(".operator")
-let equalsButton = document.querySelector("#equals")
-let clearButton = document.querySelector("#clear")
+const numberButtons = document.querySelectorAll(".number")
+const operatorButtons = document.querySelectorAll(".operator")
+const equalsButton = document.querySelector("#equals")
+const clearButton = document.querySelector("#clear")
 
-let num1Display = document.querySelector("#number1")
-let operatorDisplay = document.querySelector("#operator")
-let num2Display = document.querySelector("#number2")
+const num1Display = document.querySelector("#number1")
+const operatorDisplay = document.querySelector("#operator")
+const num2Display = document.querySelector("#number2")
 
 let num1
 let operator = ""
@@ -55,18 +55,33 @@ const operate = (num1, operator, num2) => {
 
 numberButtons.forEach(button => {
     button.addEventListener("click", e => {
-        if (operator == "") {
-            num1Display.textContent += e.target.textContent
-            num1 = num1Display.textContent
-        } else if (operator != "") {
-            num2Display.textContent += e.target.textContent
-            num2 = num2Display.textContent
+        if (num1Display.textContent === "0") {
+            num1Display.textContent = e.target.textContent; 
+        } else {
+            if (operator === "") {
+                num1Display.textContent += e.target.textContent;
+                num1 = num1Display.textContent;
+            } else {
+                num2Display.textContent += e.target.textContent;
+                num2 = num2Display.textContent;
+            }
         }
+        
+
     })
 })
 
 operatorButtons.forEach(button => {
     button.addEventListener("click", e => {
+        if (num1 && num2 && operator) {
+            result = operate(+num1, operator, +num2)
+            num1 = result
+            num1Display.textContent = num1
+            num2 = undefined
+            num2Display.textContent = num2
+            operator = e.target.textContent
+            operatorDisplay.textContent = operator
+        }
         if (num1) {
             operator = e.target.textContent
             operatorDisplay.textContent = operator
